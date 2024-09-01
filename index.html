@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Tutor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="difficulty-container">
+            <div>
+                <label for="difficulty">Difficulty:</label>
+                <select class="difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+            <div class="countdown-container">
+                <p>Countdown:</p>
+                <p class="countdown">30s</p>
+            </div>
+        </div>
+        <div class="text-container">
+            <p class="text-to-type"></p>
+        </div>
+        <textarea placeholder="Start typing here..." class="textarea" autofocus disabled></textarea>
+        <div class="buttons">
+            <button class="start-btn">Start</button>
+            <button class="reset-btn" disabled>Reset</button>
+        </div>
+        <div class="modal-overlay">
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>
