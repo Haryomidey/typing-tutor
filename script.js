@@ -22,7 +22,7 @@ const easy = [
     "The sound of laughter echoed through the lively carnival.",
     "The ancient castle towered above the misty valley below.",
     "Children's faces lit up with joy as they saw the magician's tricks.",
-    "The library’s old wooden shelves were lined with timeless classics.",
+    "The library's old wooden shelves were lined with timeless classics.",
     "A soft blanket of snow covered the town in peaceful silence.",
     "The fragrant gardenias bloomed brightly in the summer sun.",
     "A gentle rain pattered on the rooftop, creating a soothing melody.",
@@ -31,12 +31,12 @@ const easy = [
     "The cozy fire crackled warmly in the stone fireplace.",
     "The scenic view from the mountaintop was breathtakingly beautiful.",
     "A field of sunflowers swayed gently in the summer breeze.",
-    "The artist’s easel stood ready, awaiting the brushstrokes of creativity.",
+    "The artist's easel stood ready, awaiting the brushstrokes of creativity.",
     "A soft melody played on the piano in the quiet, candlelit room.",
     "The aroma of freshly baked bread wafted through the bakery.",
     "The old wooden bridge creaked as footsteps crossed over it.",
     "Sunlight streamed through the stained glass windows of the cathedral.",
-    "The river’s crystal-clear water sparkled in the midday sun.",
+    "The river's crystal-clear water sparkled in the midday sun.",
     "The meadow was dotted with wildflowers in a rainbow of colors.",
     "A gentle fog rolled in, cloaking the landscape in mystery.",
     "The sound of distant thunder rumbled through the valley.",
@@ -125,7 +125,7 @@ const medium = [
     "In the quiet town square, the fountain's gentle trickle of water provided a soothing backdrop to the slow-paced life of the community.",
     "The grand library's spiral staircase led to rows of ancient manuscripts, each bound in worn leather and filled with the wisdom of centuries past.",
     "At the farmer's market, vibrant vegetables and fragrant herbs created a colorful tapestry of nature's bounty, while vendors engaged in lively banter with customers.",
-    "The old theater’s velvet curtains parted to reveal a stage set for a classic play, the anticipation in the air palpable as the audience settled into their seats.",
+    "The old theater's velvet curtains parted to reveal a stage set for a classic play, the anticipation in the air palpable as the audience settled into their seats.",
     "On the high mountain trail, the crisp air and breathtaking views offered a sense of freedom and accomplishment to those who ventured to the summit.",
     "The quaint bed-and-breakfast welcomed guests with a homey charm, offering cozy rooms and a hearty breakfast to start the day on a cheerful note.",
     "In the botanical garden, the delicate beauty of rare orchids and lush greenery created a tranquil oasis amid the urban sprawl.",
@@ -135,17 +135,17 @@ const medium = [
     "The grand cathedral's stained glass windows filtered the sunlight into a kaleidoscope of colors, casting a serene glow over the sacred interior.",
     "The cozy pub was filled with the lively hum of conversation, the clink of glasses, and the laughter of friends enjoying a night out.",
     "The serene countryside was dotted with grazing animals and sprawling fields, providing a picturesque escape from the hustle and bustle of city life.",
-    "The art museum’s modern exhibit challenged perceptions with its abstract sculptures and thought-provoking installations.",
-    "The old mill’s water wheel turned steadily in the gentle current, a reminder of a simpler time when life moved at a slower pace.",
+    "The art museum's modern exhibit challenged perceptions with its abstract sculptures and thought-provoking installations.",
+    "The old mill's water wheel turned steadily in the gentle current, a reminder of a simpler time when life moved at a slower pace.",
     "The bustling street market was a sensory overload of sights, sounds, and smells, with vendors calling out their wares and customers haggling for the best deals.",
     "In the secluded garden, the sweet scent of blooming jasmine filled the air, and the soft murmur of a nearby stream provided a calming soundtrack.",
-    "The library’s reading nook, with its comfortable armchairs and warm lighting, invited readers to lose themselves in the pages of a good book.",
+    "The library's reading nook, with its comfortable armchairs and warm lighting, invited readers to lose themselves in the pages of a good book.",
     "The scenic train ride through the countryside offered glimpses of charming villages and rolling hills, each turn of the track revealing a new vista.",
     "The vintage carousel, with its hand-painted horses and cheerful music, brought smiles to the faces of both children and adults.",
     "The sprawling vineyard was a patchwork of green and purple, with ripe grapes ready for harvest under the golden afternoon sun.",
     "In the cozy attic, dusty trunks and old photographs told stories of a bygone era, sparking memories and imagination.",
     "The small-town diner, with its retro décor and friendly staff, served up hearty meals and a sense of nostalgia.",
-    "The charming canal was lined with colorful houses, their reflections shimmering on the water’s surface as gondolas glided by.",
+    "The charming canal was lined with colorful houses, their reflections shimmering on the water's surface as gondolas glided by.",
     "In the tranquil retreat, yoga practitioners moved gracefully through their poses, finding peace and balance in the serene surroundings.",
     "The quaint village was blanketed in snow, the twinkling holiday lights adding a touch of magic to the wintry scene.",
     "The open-air market was a vibrant tapestry of colorful fruits, vegetables, and handcrafted goods, offering a feast for the senses.",
@@ -290,12 +290,14 @@ let countdownTime = 30;
 let correctText = [];
 let incorrectText = [];
 let textToType;
+let wordsToType;
 let timeSpent = 0;
 let performance = '';
 
 const startTyping = () => {
     isTyping = true;
     typingAreaEl.focus();
+    typingAreaEl.disabled = false;
     resetBtn.disabled = false;
     if (isTyping) {
         startCountDown(countdownTime);
@@ -312,7 +314,8 @@ const startTyping = () => {
 const listingToInput = () => {
     typingAreaEl.focus();
     const splitTextToType = textToTypeContainer.textContent.split('');
-    const typedText = typingAreaEl.value.split('');
+    wordsToType = textToTypeContainer.textContent.split(' ');
+    const typedText = typingAreaEl.value;
 
     correctText = [];
     incorrectText = [];
@@ -333,10 +336,13 @@ const listingToInput = () => {
         }
     }
 
+    console.log(wordsToType)
+
     if (splitTextToType.length === typedText.length) {
         stopCountDown();
     }
 };
+
 
 const startCountDown = (count) => {
     countdownEl.textContent = `${count}s`;
@@ -460,6 +466,17 @@ difficultyEl.addEventListener('change', () => {
     setTextToType(difficultyEl.value);
 });
 
+const readNextText = () => {
+    const utterance = new SpeechSynthesisUtterance('');
+    const voices = speechSynthesis.getVoices();
+    utterance.voice = voices[0];
+    speechSynthesis.speak(utterance);
+}
+
 typingAreaEl.addEventListener('input', listingToInput);
 startBtn.addEventListener('click', startTyping);
 resetBtn.addEventListener('click', resetTyping);
+
+window.addEventListener('onbeforeunload', () => {
+    console.log('Yes')
+})
